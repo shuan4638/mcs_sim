@@ -26,13 +26,11 @@ Next, I calculate the similarities between the parent molecules and their mutati
 1. Tanimoto Similarity
 2. rdkit MCS similarity
 3. fast MCS similarity
-4. Hybrid similarity ($\sqrt{(1)*(3)}$)
+4. hybrid similarity ($\sqrt{(1)*(3)}$)
 
 To reduce the experimental time, I random chose 200 molecules from 50K molecules from USPTO_50K.
 
 ## Results
-
-### 1. Similarity
 
 Both RDKit_MCS and fast_MCS similairty show high similarity scores, and Tanimoto shows lower similarity scores between parents mutations.
 
