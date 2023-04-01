@@ -16,6 +16,11 @@ def timer(func):
         return run_time, value
     return wrapper_timer
 
+def get_atom_envs(mol):
+    info = {}
+    fp = AllChem.GetMorganFingerprint(mol, 1, bitInfo=info)
+    return info
+    
 def dfs(node, graph, subgraph, visited, nodes):
     visited.add(node)
     for neighbor in graph[node]:
@@ -42,33 +47,8 @@ def search_frags_with_atoms(mol, atoms_to_use):
     subgraphs = search_subgraphs(graph, expanded_atoms_to_use)
     return subgraphs
 
-def get_frags(mol):
-    frags = defaultdict(list)
-    for atom in mol.GetAtoms():
-        frag = Chem.MolFragmentToSmarts(mol, [atom.GetIdx()]+[n.GetIdx() for n in atom.GetNeighbors()])
-        frags[frag].append(atom.GetIdx())
-    return frags
-
 @timer
-def fast_MCS(mol1, mol2, print_frag = False):
-    frags1, frags2 = get_frags(mol1), get_frags(mol2)
-    common_atoms1, common_atoms2 = [], []
-    for frag1, atoms1 in frags1.items():
-        if frag1 in frags2:
-            common_atoms1 += atoms1
-            common_atoms2 += frags2[frag1]
-    frags1, frags2 = search_frags_with_atoms(mol1, common_atoms1), search_frags_with_atoms(mol2, common_atoms2)
-    max_frag1, max_frag2 = max(frags1, key=len), max(frags2, key=len)
-    MCS1, MCS2 = Chem.PathToSubmol(mol1, max_frag1), Chem.PathToSubmol(mol2, max_frag2)
-    if print_frag: print (MCS1, MCS2)
-    return rdFMCS.FindMCS([MCS1, MCS2], ringMatchesRingOnly=True,completeRingsOnly=True)
-
-@timer
-def rdkit_MCS(mol1, mol2):
-    return rdFMCS.FindMCS([mol1, mol2], ringMatchesRingOnly=True,completeRingsOnly=True)
-
-@timer
-def Tam_Sim(mol1, mol2, radius = 2):
+def Tanimoto_Sim(mol1, mol2, radius = 2):
     fp1 = AllChem.GetMorganFingerprintAsBitVect(mol1, radius)
     fp2 = AllChem.GetMorganFingerprintAsBitVect(mol2, radius)
     return DataStructs.TanimotoSimilarity(fp1, fp2)
@@ -80,9 +60,7 @@ def rdkit_MCS_Sim(mol1, mol2):
 
 @timer
 def fast_MCS_Sim(mol1, mol2, radius = 1, print_frag = False):
-    info1, info2 = {}, {}
-    fp1 = AllChem.GetMorganFingerprint(mol1, radius, bitInfo=info1)
-    fp2 = AllChem.GetMorganFingerprint(mol2, radius, bitInfo=info2)
+    info1, info2 = get_atom_envs(mol1), get_atom_envs(mol2)
     common_atoms1, common_atoms2 = [], []
     for fp, irs in info1.items():
         if fp in info2 and irs[0][1] == radius:
