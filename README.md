@@ -5,7 +5,7 @@ Molecular similarity based on fast estimation of maximum common substructure (MC
 
 Let the MCS of two molecules mol<sub>1</sub> and mol<sub>2</sub> as mol<sub>MCS</sub>, here the similarity is defined as 
 
-$$ MCS\_Sim = {2n(mol_{MCS})\over n(mol_1)+ n(mol_2)} $$
+$$ McsSim = {2n(mol_{MCS})\over n(mol_1)+ n(mol_2)} $$
 
 Where n(mol) denotes the number of atoms in the molecule.
 
@@ -34,13 +34,9 @@ To reduce the experimental time, I random chose 200 molecules from 50K molecules
 
 Both RDKit_MCS and fast_MCS similairty show high similarity scores, and Tanimoto shows lower similarity scores between parents mutations.
 
-![](https://i.imgur.com/ZnTIWC3.png)
-
-### 2. Computational time
-
 The computational time using Tanimoto similarity as unit. While rdkit_MCS requires 60K loger time than Tanimoto, fast_MCS only needs around double time of Tanimoto.
 
-![](https://i.imgur.com/yve1aHm.png)
+![](https://i.imgur.com/Max1c8i.png)
 
 
 
