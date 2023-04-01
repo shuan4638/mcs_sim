@@ -26,17 +26,15 @@ Next, I calculate the similarities between the parent molecules and their mutati
 1. Tanimoto Similarity
 2. rdkit MCS similarity
 3. fast MCS similarity
-4. hybrid similarity ($\sqrt{(1)*(3)}$)
 
 To reduce the experimental time, I random chose 200 molecules from 50K molecules from USPTO_50K.
 
 ## Results
 
 Both RDKit_MCS and fast_MCS similairty show high similarity scores, and Tanimoto shows lower similarity scores between parents mutations.
+While rdkit_MCS requires 60K loger time than Tanimoto, fast_MCS only needs around double time of Tanimoto.
 
-The computational time using Tanimoto similarity as unit. While rdkit_MCS requires 60K loger time than Tanimoto, fast_MCS only needs around double time of Tanimoto.
-
-![](https://i.imgur.com/Max1c8i.png)
+![](https://i.imgur.com/bmolKIs.png)
 
 
 
