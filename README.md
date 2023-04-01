@@ -20,6 +20,8 @@ Noticing the `rdkit.Chem.rdFMCS.FindMCS` is slow in some cases, such as large mo
 ## Experiment
 First, I use the products in USPTO_50K dataset and apply [CReM](https://github.com/DrrDom/crem) to generate 5 mutations for each molecule. These mutations are supposed to be "similar" with the parent molecules.
 
+![](https://i.imgur.com/sr1IuJr.png)
+
 Next, I calculate the similarities between the parent molecules and their mutations and find the top 3 molst similar mutations using 
 1. Tanimoto Similarity
 2. rdkit MCS similarity
